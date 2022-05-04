@@ -31,7 +31,7 @@ const CreateParamas = async (filePath) => {
   console.log('props', JSON.parse(propsObject));
 }
 
-const CreateStory = async (filePath, dontOverride = false) => {
+const CreateStory = async (filePath, dontOverride = false, confirmFirst = false) => {
   // const params = await CreateParamas(filePath);
   const componentNameScores = filePath.split('/').pop().replace('.vue', '')
   const storyPath = filePath.replace('.vue', '');
@@ -67,7 +67,19 @@ const CreateStory = async (filePath, dontOverride = false) => {
       create();
     }
   } else {
-    create();
+    if (confirmFirst) {
+      const response = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'create',
+        message: `Do you want to create a story for ${componentNameScores}?`,
+        default: false
+      }])
+      if (response.create) {
+        create();
+      }
+    } else {
+      create();
+    }
   }
 }
 
@@ -88,16 +100,36 @@ if (name) {
 } else {
   console.log(
     chalk.bgYellow(
-      `no name provided, spawning story for all .vue files in current directory`
+      `no name provided`
     )
   );
-  //Spawn story for every vue file in current directory
-  const files = fs.readdirSync(process.cwd());
-  files.forEach(file => {
-    if (file.endsWith('.vue')) {
-      CreateStory(file, true);
+  inquirer.prompt([{
+    type: 'list',
+    name: 'option',
+    message: 'What do you want to do?',
+    choices: [
+      'Create a story for each vue file in the current directory',
+      'Create a story for specific vue files']
+  }]).then(async (answers) => {
+    console.log(answers);
+    if (answers.option === 'Create a story for each vue file in the current directory') {
+      const files = fs.readdirSync(process.cwd());
+      files.forEach(file => {
+        if (file.endsWith('.vue')) {
+          CreateStory(file, true);
+        }
+      });
+    } else if (answers.option === 'Create a story for specific vue files') {
+      const files = fs.readdirSync(process.cwd());
+      for(let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.endsWith('.vue')) {
+          await CreateStory(file, true, true);
+        }
+      }
     }
   });
+  // //Spawn story for every vue file in current directory
 }
 
 
