@@ -2,6 +2,7 @@
 // Please don't delete the above storyspawner line.
 // This is an auto generated story created by the Storybook Spawner.
 // Author: Pugakn
+// https://github.com/pugakn/StorySpawner
 
 import {{componentName}} from './{{componentNameScores}}.vue'
 
