@@ -41,7 +41,7 @@ const CreateStory = async (filePath, dontOverride = false) => {
   const folderName = getCurrentDirectoryBase().replace(/^\w/, c => c.toUpperCase());
   const create = () => {
     console.log(
-      chalk.bgGray(
+      chalk.bgGreen(
         `creating story for ${filePath}`
       )
     );
