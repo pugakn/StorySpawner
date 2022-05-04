@@ -1,0 +1,28 @@
+//#STORYSPAWNER
+// Please don't delete the above storyspawner line.
+// This is an auto generated story created by the Storybook Spawner.
+// Author: Pugakn
+
+import {{componentName}} from './{{componentNameScores}}.vue'
+
+export default {
+  title: '{{folderName}}/{{componentSeparatedName}}',
+  component: {{componentName}},
+  argTypes: {}
+}
+
+const Template = (args, { argTypes }) => ({
+  props: Object.keys(argTypes),
+  components: { {{componentName}} },
+  template: `
+    <{{componentNameScores}} v-bind="$props" />
+  `
+})
+
+export const Example = Template.bind({})
+// These are the params for the example story. You can all the params you want.
+Example.args = {
+
+}
+
+export const Base = Template.bind({})
